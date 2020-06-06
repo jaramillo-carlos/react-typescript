@@ -150,7 +150,3 @@ console.log(bearOne.name);
 console.log(bearOne.age); // not will work
 console.log(bearOne.zone); // not will work
 ```
-
-
-# React (Typescript)
-- `npx create-react-app app-name --typescript`

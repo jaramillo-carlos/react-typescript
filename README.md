@@ -1,3 +1,9 @@
+# React (Typescript)
+- `npx create-react-app app-name --typescript`
+- `npm run eject`
+
+-----
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
