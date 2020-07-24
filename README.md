@@ -186,6 +186,16 @@ console.log(dog.move);
 console.log(dog.move(1));
 ```
 
+
+## Abstract class
+Superclass, that you dont need create instances, usually used only for hierarchy. The dicerence with interface is abstract class, can implement functions for the instances.
+```typescript
+abstract class Id {
+  protected id: number;
+  public static idk?: string; // you cant acces to this without istance Id.idk
+}
+```
+
 ## Hierarchy
 ```typescript
 class Bear extends Animal {
@@ -201,16 +211,27 @@ class Bear extends Animal {
 ```
 
 ## Access modifiers
+You can modify private attributes, with  **accessor methods**: `set` and `get`
 ```typescript
 class Animal {
+  _id?: string; // per default are public
   public name: string;
-  private age: number; // only can used inside a this class.
+  private age: number; // only can used inside a this class. // You can acces this in runtime.
+  #newAge?: number; // since typescript 3.8. - Is bethern then private, because encapsulates private members
   protected zone: string; // only can used inside a this class and subclass (Hierarchy) but not in instances
 
   constructor(name:string, age?: number, zone?: string) {
     this.name = name;
     this.age = age;
     this.zone = zone;
+  }
+
+/* Accessor methods */
+  get id() {
+    return this._id
+  }
+  set id(id: number) {
+    this._id = id;
   }
 
   move(distance: string | number = 10) {
@@ -239,6 +260,63 @@ console.log(bearOne.zone); // not will work
 ```
 
 
+# Module resolution strategie
+`moduleResolution` and `traceResolution`
+**classic:** AMD Modules, System, ES2015. it is less configurable
+```typescript
+// RELATIVE IMPORT
+// archivo: /ts/photo/main.ts
+import {Picture} from './picture';
+
+// /ts/photo/picture.ts
+// /ts/photo/picture.d.ts
+
+
+// NO-RELATIVE IMPORT
+// archivo: /ts/photo/main.ts
+import {Picture} from 'picture';
+
+// /ts/photo/picture.ts
+// /ts/photo/picture.d.ts
+
+// typescript/picture.ts
+// typescript/picture.d.ts
+// (continua buscando en el árbol de directorios)
+```
+**node**: CommonJS modules, or UMD. Have más configuration options
+```typescript
+// RELATIVE IMPORT
+// archivo: /ts/photo/main.ts
+import {Picture} from './picture';
+
+// /ts/photo/picture.ts
+// /ts/photo/picture.tsx
+// /ts/photo/picture.d.ts
+
+// /ts/photo/picture/package.json ("typings")
+// /ts/photo/index.ts
+// /ts/photo/index.tsx
+// /ts/photo/index.d.ts
+
+// NO-RELATIVE IMPORT
+// archivo: /ts/photo/main.ts
+import {Picture} from 'picture';
+
+// /ts/photo/node_modules/picture.ts
+// /ts/photo/node_modules/picture.tsx
+// /ts/photo/node_modules/picture.d.ts
+// /ts/photo/node_modules/picture/package.json
+// /ts/photo/node_modules/index.ts
+
+// /ts/node_modules/picture.ts
+// /ts/node_modules/picture.tsx
+// /ts/node_modules/picture.d.ts
+// /ts/node_modules/index.ts
+// /ts/node_modules/index.tsx
+// /ts/node_modules/index.d.ts
+
+```
+``
 -----
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
